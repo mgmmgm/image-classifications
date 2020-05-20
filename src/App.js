@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ImageClassify from './components/image-classify/ImageClassify';
+import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
+import CameraClassify from './components/camera-classify/CameraClassify';
 
 function App() {
+
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <ul className="menu">
+          <li>
+            <Link to="/">Image Classifictions</Link>
+          </li>
+          <li>
+            <Link to="/camera">Camera Classifications</Link>
+          </li>
+        </ul>
+        <Switch>
+          <Route exact path="/">
+            <ImageClassify/>
+          </Route>
+          <Route path="/camera">
+            <CameraClassify/>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
