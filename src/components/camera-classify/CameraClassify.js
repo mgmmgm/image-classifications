@@ -36,7 +36,7 @@ function CameraClassify() {
     }
 
     return (
-        <div style={{textAlign: "center"}}>
+        <div>
             {loading && <div>
                     <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
                     <div>Loading model...</div>
