@@ -3,6 +3,7 @@ import './App.css';
 import ImageClassify from './components/image-classify/ImageClassify';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import CameraClassify from './components/camera-classify/CameraClassify';
+import BodyPoses from './components/body-poses/body-poses';
 
 function App() {
 
@@ -18,6 +19,9 @@ function App() {
           <li>
             <Link to="/camera">Camera Classifications</Link>
           </li>
+          <li>
+            <Link to="/body">Body Poses</Link>
+          </li>
         </ul>
         <Switch>
           <Route exact path="/">
@@ -25,6 +29,9 @@ function App() {
           </Route>
           <Route path="/camera">
             <CameraClassify/>
+          </Route>
+          <Route path="/body">
+            <BodyPoses/>
           </Route>
         </Switch>
       </div>

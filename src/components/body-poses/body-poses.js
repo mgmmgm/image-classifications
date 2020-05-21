@@ -6,8 +6,6 @@ function BodyPoses() {
 
     const [model, SetModel] = useState();
     const [loading, setLoading] = useState(true);
-    const [image, setImage] = useState();
-    const refImageElement = useRef();
     const refCanvas = useRef();
 
     useEffect(() => {
@@ -26,33 +24,58 @@ function BodyPoses() {
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = async(res) => {
-            // await setImage(res.target.result);
 
-            const img = new Image();
-            img.src = res.target.result;
-            img.onload = async() => {
-                refCanvas.current.width = img.width;
-                refCanvas.current.height = img.height;
-                const ctx = refCanvas.current.getContext('2d');
-                ctx.drawImage(img, 0, 0);
+            const img = await renderImageToCanvas(res.target.result);
+            const input = tf.browser.fromPixels(img);
+            const poses = await model.estimatePoses(input, {
+                flipHorizontal: false,
+                decodingMethod: 'multi-person',
+                maxDetections: 15,
+                scoreThreshold: 0.1,
+                nmsRadius: 20.0
+                });
 
-                const input = tf.browser.fromPixels(img);
-                const poses = await model.estimatePoses(input, {
-                    flipHorizontal: false,
-                    decodingMethod: 'multi-person',
-                    maxDetections: 15,
-                    scoreThreshold: 0.1,
-                    nmsRadius: 20.0
-                  });
+                console.log(poses);
 
-                  console.log(poses);
+
+
+
+            // const img = new Image();
+            // img.src = res.target.result;
+            // img.onload = async() => {
+            //     refCanvas.current.width = img.width;
+            //     refCanvas.current.height = img.height;
+            //     const ctx = refCanvas.current.getContext('2d');
+            //     ctx.drawImage(img, 0, 0);
+
+            //     const input = tf.browser.fromPixels(img);
+            //     const poses = await model.estimatePoses(input, {
+            //         flipHorizontal: false,
+            //         decodingMethod: 'multi-person',
+            //         maxDetections: 15,
+            //         scoreThreshold: 0.1,
+            //         nmsRadius: 20.0
+            //       });
+
+            //       console.log(poses);
                
-            }
+            // }
             
             // predictImage();
           }
         }
-      }
+    }
+
+    async function renderImageToCanvas(imageSrc) {
+        const img = new Image();
+        img.src = imageSrc;
+        await img.onload;
+        refCanvas.current.width = img.width;
+        refCanvas.current.height = img.height;
+        const ctx = refCanvas.current.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        return img;
+    }
     
 
     return (
