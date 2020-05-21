@@ -4,6 +4,8 @@ import * as posenet from '@tensorflow-models/posenet';
 
 function BodyPoses() {
 
+    const colors = ['aqua', 'yellow', 'green', 'red', 'blue'];
+
     const [model, SetModel] = useState();
     const [loading, setLoading] = useState(true);
     const refCanvas = useRef();
@@ -35,33 +37,8 @@ function BodyPoses() {
                 nmsRadius: 20.0
                 });
 
-                console.log(poses);
-
-
-
-
-            // const img = new Image();
-            // img.src = res.target.result;
-            // img.onload = async() => {
-            //     refCanvas.current.width = img.width;
-            //     refCanvas.current.height = img.height;
-            //     const ctx = refCanvas.current.getContext('2d');
-            //     ctx.drawImage(img, 0, 0);
-
-            //     const input = tf.browser.fromPixels(img);
-            //     const poses = await model.estimatePoses(input, {
-            //         flipHorizontal: false,
-            //         decodingMethod: 'multi-person',
-            //         maxDetections: 15,
-            //         scoreThreshold: 0.1,
-            //         nmsRadius: 20.0
-            //       });
-
-            //       console.log(poses);
-               
-            // }
-            
-            // predictImage();
+            console.log(poses);
+            drawPosesOnImage(poses);
           }
         }
     }
@@ -75,6 +52,25 @@ function BodyPoses() {
         const ctx = refCanvas.current.getContext('2d');
         ctx.drawImage(img, 0, 0);
         return img;
+    }
+
+    function drawPosesOnImage(poses) {
+        const ctx = refCanvas.current.getContext('2d');
+        poses.forEach((pose, i) => {
+            if (pose.score > 0.5) {
+                pose.keypoints.forEach(keypoint => {
+                    const {x, y} = keypoint.position;
+                    drawPoint(ctx, x, y, 3, colors[i % 5]);
+                })
+            }
+        })
+    }
+
+    function drawPoint(ctx, x, y, radius, color) {
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
     }
     
 
