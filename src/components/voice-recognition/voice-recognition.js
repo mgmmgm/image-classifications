@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './voice-recognition.css';
 import ChatBox from './ChatBox';
 
 function VoiceRecognition() {
@@ -8,10 +9,13 @@ function VoiceRecognition() {
     recognition.lang = 'en-US';
 
     const [sentences, setSentences] = useState([]);
+    const [isRecording, setIsRecording] = useState(false);
 
     function startRecord() {
+        setIsRecording(true);
         recognition.start();
         recognition.onresult = event => {
+            setIsRecording(false);
             const newSentence = {
                 text: event.results[event.resultIndex][0].transcript,
                 speak: 'user'
@@ -78,8 +82,8 @@ function VoiceRecognition() {
 
     return (
         <div>
-            <div>
-                <button onClick={startRecord}>Click to speak</button>
+            <div className="voice-recorder">
+                <img className={`voice-recorder-image ${isRecording ? 'recording' : ''}`} src="assets/voicerecorder.jpg" onClick={startRecord}></img>
             </div>
             <div>
                 {

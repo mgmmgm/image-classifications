@@ -1,0 +1,30 @@
+.voice-recorder {
+    position: fixed;
+    cursor: pointer;
+}
+
+.voice-recorder-image {
+    width: 100px;
+    height: 100px;
+    margin-left: 50px;
+    border-radius: 50%;
+}
+
+.recording {
+	animation-name: pulse;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes pulse{
+	0%{
+		box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
+	}
+	65%{
+		box-shadow: 0px 0px 5px 13px rgba(173,0,0,.3);
+	}
+	90%{
+		box-shadow: 0px 0px 5px 13px rgba(173,0,0,0);
+	}
+}
