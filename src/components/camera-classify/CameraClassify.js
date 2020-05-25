@@ -45,7 +45,7 @@ function CameraClassify() {
             {!loading &&
                 <React.Fragment>
                     <div>
-                        <video ref={refVideo} autoPlay muted width="400px" height="400px"></video>
+                        <video ref={refVideo} autoPlay muted width="640px" height="480px"></video>
                     </div>
                     <div>
                         <ul style={{display: "inline-block", textAlign: 'left'}}>

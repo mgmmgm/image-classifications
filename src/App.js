@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import CameraClassify from './components/camera-classify/CameraClassify';
 import BodyPoses from './components/body-poses/body-poses';
 import VoiceRecognition from './components/voice-recognition/voice-recognition';
+import CameraPoses from './components/camera-poses/camera-poses';
 
 function App() {
 
@@ -24,6 +25,9 @@ function App() {
             <Link to="/body">Body Poses</Link>
           </li>
           <li>
+            <Link to="/camera-poses">Camera Poses</Link>
+          </li>
+          <li>
             <Link to="/voice">Voice</Link>
           </li>
         </ul>
@@ -36,6 +40,9 @@ function App() {
           </Route>
           <Route path="/body">
             <BodyPoses/>
+          </Route>
+          <Route path="/camera-poses">
+            <CameraPoses/>
           </Route>
           <Route path="/voice">
             <VoiceRecognition/>
