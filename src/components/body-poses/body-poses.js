@@ -113,17 +113,10 @@ function BodyPoses() {
             {!loading && 
                 <div>
                     <input type="file" onChange={onImageSelected}></input>
-                {true && 
-                    <React.Fragment>
                     <div>
                         <canvas ref={refCanvas} ></canvas>
                         {/* <img ref={refImageElement} width="500" height="400" src={image} alt="image"></img> */}
                     </div>
-                    {/* <ul className="predictions-list">
-                        {predictions.map((p,i) => <li key={i}>{p.className} - {p.probability.toFixed(2)}</li>)}
-                    </ul> */}
-                    </React.Fragment>
-                }
                 </div>
             }
             

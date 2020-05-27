@@ -53,7 +53,7 @@ function ImageClassify() {
             <img ref={refImageElement} width="500" height="400" src={image} alt="image"></img>
           </div>
           <ul className="predictions-list">
-            {predictions.map((p,i) => <li key={i}>{p.className} - {p.probability.toFixed(2)}</li>)}
+            {predictions.map((p,i) => <li key={i}>{p.className} - {p.probability.toFixed(2)*100}%</li>)}
           </ul>
         </React.Fragment>
       }

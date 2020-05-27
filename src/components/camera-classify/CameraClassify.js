@@ -49,7 +49,7 @@ function CameraClassify() {
                     </div>
                     <div>
                         <ul style={{display: "inline-block", textAlign: 'left'}}>
-                            {preditions.map((p, i) => <li key={i}>{p.className} - {p.probability.toFixed(2)}</li>)}
+                            {preditions.map((p, i) => <li key={i}>{p.className} - {p.probability.toFixed(2)*100}%</li>)}
                         </ul>
                     </div>
                 </React.Fragment>

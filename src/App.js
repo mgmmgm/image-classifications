@@ -6,6 +6,7 @@ import CameraClassify from './components/camera-classify/CameraClassify';
 import BodyPoses from './components/body-poses/body-poses';
 import VoiceRecognition from './components/voice-recognition/voice-recognition';
 import CameraPoses from './components/camera-poses/camera-poses';
+import ObjectDetection from './components/object-detection/object-detection';
 
 function App() {
 
@@ -30,6 +31,9 @@ function App() {
           <li>
             <Link to="/voice">Voice</Link>
           </li>
+          <li>
+            <Link to='/detection'>Object Detection</Link>
+          </li>
         </ul>
         <Switch>
           <Route exact path="/">
@@ -46,6 +50,9 @@ function App() {
           </Route>
           <Route path="/voice">
             <VoiceRecognition/>
+          </Route>
+          <Route path="/detection">
+            <ObjectDetection/>
           </Route>
         </Switch>
       </div>
