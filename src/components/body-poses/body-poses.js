@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import * as posenet from '@tensorflow-models/posenet';
+import './body-poses.css';
 
 function BodyPoses() {
 
@@ -9,6 +10,12 @@ function BodyPoses() {
     const [model, setModel] = useState();
     const [loading, setLoading] = useState(true);
     const refCanvas = useRef();
+
+    const [showDots, setShowDots] = useState(true);
+    const [showLines, setShowLines] = useState(true);
+    const [showMask, setShowMask] = useState(false);
+    const [image, setImage] = useState();
+    const [bodyPoses, setBodyPoses] = useState();
 
     useEffect(() => {
         async function getModel() {
@@ -19,6 +26,19 @@ function BodyPoses() {
 
         getModel();
     }, []);
+
+    useEffect(() => {
+        async function redraw() {
+            if (refCanvas && image) {
+                const ctx = refCanvas.current.getContext('2d');
+                // clear all canvas and redraw again
+                ctx.clearRect(0, 0, refCanvas.current.width, refCanvas.current.height);
+                ctx.drawImage(image, 0, 0);
+                drawPosesOnImage(bodyPoses);
+            }
+        }
+        redraw();        
+    }, [showDots, showLines, showMask]);
 
     function onImageSelected(event) {
         const file = event.target.files[0];
@@ -38,6 +58,7 @@ function BodyPoses() {
                 });
 
             console.log(poses);
+            setBodyPoses(poses);
             drawPosesOnImage(poses);
           }
         }
@@ -51,6 +72,7 @@ function BodyPoses() {
         refCanvas.current.height = img.height;
         const ctx = refCanvas.current.getContext('2d');
         ctx.drawImage(img, 0, 0);
+        setImage(img);
         return img;
     }
 
@@ -59,15 +81,21 @@ function BodyPoses() {
         poses.forEach((pose, i) => {
             if (pose.score > 0.5) {
                 const color = colors[i % 5];
-                pose.keypoints.forEach(keypoint => {
-                    const {x, y} = keypoint.position;
-                    drawPoint(ctx, x, y, 3, color);
-                })
-                drawLinesBetweenPoses(ctx, pose, color);
-                drawMaskOnFace(ctx, pose);
+                if (showDots) {
+                    pose.keypoints.forEach(keypoint => {
+                        const {x, y} = keypoint.position;
+                        drawPoint(ctx, x, y, 3, color);
+                    })
+                }
+                if (showLines) {
+                    drawLinesBetweenPoses(ctx, pose, color);
+                }
+                
+                if (showMask) {
+                    drawMaskOnFace(ctx, pose);
+                }
             }
         })
-        
     }
 
     function drawPoint(ctx, x, y, radius, color) {
@@ -138,6 +166,21 @@ function BodyPoses() {
             {!loading && 
                 <div>
                     <input type="file" onChange={onImageSelected}></input>
+                    {image && <div className="body-poses-labels-container">
+                        <label className="body-poses-label">
+                            <input type="checkbox" checked={showDots} onChange={() => setShowDots(!showDots)}></input>
+                            Show Dots
+                        </label>
+                        <label className="body-poses-label">
+                            <input type="checkbox" checked={showLines} onChange={() => setShowLines(!showLines)}></input>
+                            Show Lines
+                        </label>
+                        <label>
+                            <input type="checkbox" checked={showMask} onChange={() => setShowMask(!showMask)}></input>
+                            Show Mask
+                        </label>
+                    </div>
+                    }
                     <div>
                         <canvas ref={refCanvas} ></canvas>
                         {/* <img ref={refImageElement} width="500" height="400" src={image} alt="image"></img> */}
