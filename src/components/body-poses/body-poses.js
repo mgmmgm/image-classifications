@@ -64,6 +64,7 @@ function BodyPoses() {
                     drawPoint(ctx, x, y, 3, color);
                 })
                 drawLinesBetweenPoses(ctx, pose, color);
+                drawMaskOnFace(ctx, pose);
             }
         })
         
@@ -100,6 +101,30 @@ function BodyPoses() {
         ctx.strokeStyle = color;
         ctx.lineWidth = 2;
         ctx.stroke();
+    }
+
+    function drawMaskOnFace(ctx, pose) {
+        // calc mouth
+        const earsDistance = pose.keypoints[3].position.x - pose.keypoints[4].position.x;
+        const earsMiddle = earsDistance / 2;
+        const mouthX = pose.keypoints[3].position.x - earsMiddle;
+        const noseEyeMaxDistance = Math.max(pose.keypoints[0].position.y - pose.keypoints[1].position.y, pose.keypoints[0].position.y - pose.keypoints[2].position.y);
+        const mouthY = pose.keypoints[0].position.y + noseEyeMaxDistance;
+        // draw mouth
+        drawPoint(ctx, mouthX, mouthY, 3, 'blue');
+        
+        ctx.beginPath();
+        ctx.moveTo(pose.keypoints[0].position.x, pose.keypoints[0].position.y);
+        ctx.lineTo(pose.keypoints[3].position.x, pose.keypoints[3].position.y);
+        ctx.lineTo(mouthX, mouthY + noseEyeMaxDistance);
+        ctx.lineTo(pose.keypoints[4].position.x, pose.keypoints[4].position.y);
+        ctx.lineTo(pose.keypoints[0].position.x, pose.keypoints[0].position.y);
+        
+        // ctx.strokeStyle = 'red';
+        // ctx.lineWidth = 2;
+        // ctx.stroke();
+        ctx.fillStyle = 'red';
+        ctx.fill();
     }
     
 
