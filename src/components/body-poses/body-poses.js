@@ -144,14 +144,15 @@ function BodyPoses() {
         ctx.beginPath();
         ctx.moveTo(pose.keypoints[0].position.x, pose.keypoints[0].position.y);
         ctx.lineTo(pose.keypoints[3].position.x, pose.keypoints[3].position.y);
-        ctx.lineTo(mouthX, mouthY + noseEyeMaxDistance);
+        ctx.lineTo(mouthX + noseEyeMaxDistance, mouthY + noseEyeMaxDistance);
+        ctx.lineTo(mouthX - noseEyeMaxDistance, mouthY + noseEyeMaxDistance);
         ctx.lineTo(pose.keypoints[4].position.x, pose.keypoints[4].position.y);
         ctx.lineTo(pose.keypoints[0].position.x, pose.keypoints[0].position.y);
         
         // ctx.strokeStyle = 'red';
         // ctx.lineWidth = 2;
         // ctx.stroke();
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = '#68b2ed';
         ctx.fill();
     }
     
